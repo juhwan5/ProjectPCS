@@ -13,7 +13,6 @@ public class GameDirector : MonoBehaviour
     public Camera player_Camera;
 
     float player_Distance = 7.5f;
-    float chipArea = 4.5f;
     GameObject playerObject;
     Dictionary<KeyCode, int> numkey_list = new Dictionary<KeyCode, int>{
         {KeyCode.Keypad1, 1}, {KeyCode.Keypad2, 2},
@@ -73,9 +72,12 @@ public class GameDirector : MonoBehaviour
 
     void ChipDrop(GameObject color_Chip)
     {
+        float chip_drop_range = 0.3f;
+        Transform chip_drop_area = playerObject.transform.Find("ChipArea");
         GameObject chip = Instantiate(color_Chip) as GameObject;
-        float x = Random.Range(-0.3f, 0.3f);
-        float z = Random.Range(-0.3f, 0.3f);
-        chip.transform.position = new Vector3(x, 4f, z);
+
+        float x = Random.Range(-chip_drop_range, chip_drop_range);
+        float z = Random.Range(-chip_drop_range, chip_drop_range);
+        chip.transform.position = chip_drop_area.position + new Vector3(x, 1f, z);
     }
 }
