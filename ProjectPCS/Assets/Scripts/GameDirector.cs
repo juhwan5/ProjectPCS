@@ -13,6 +13,8 @@ public class GameDirector : MonoBehaviour
     public Camera player_Camera;
 
     float player_Distance = 7.5f;
+
+    int player_number = 0;
     GameObject playerObject;
     Dictionary<KeyCode, int> numkey_list = new Dictionary<KeyCode, int>{
         {KeyCode.Keypad1, 1}, {KeyCode.Keypad2, 2},
@@ -45,18 +47,20 @@ public class GameDirector : MonoBehaviour
             }
 
             if(Input.GetKeyDown(KeyCode.Keypad0)){
+                player_number = 0;
                 main_Camera.enabled = true;
                 player_Camera.enabled = false;
             }
             foreach(var dic in numkey_list){
                 if(Input.GetKeyDown(dic.Key)){
+                    player_number = dic.Value;
                     SetPlayerPosition(dic.Value);
                     main_Camera.enabled = false;
                     player_Camera.enabled = true;
                 }
             }
             if(Input.GetKeyDown(KeyCode.Space)){
-                
+                ChipsDelete();
             }
         }
     }
@@ -75,9 +79,14 @@ public class GameDirector : MonoBehaviour
         float chip_drop_range = 0.3f;
         Transform chip_drop_area = playerObject.transform.Find("ChipArea");
         GameObject chip = Instantiate(color_Chip) as GameObject;
+        chip.GetComponent<Chips>().id_number = player_number;
 
         float x = Random.Range(-chip_drop_range, chip_drop_range);
         float z = Random.Range(-chip_drop_range, chip_drop_range);
         chip.transform.position = chip_drop_area.position + new Vector3(x, 1f, z);
+    }
+
+    void ChipsDelete(){
+        
     }
 }
