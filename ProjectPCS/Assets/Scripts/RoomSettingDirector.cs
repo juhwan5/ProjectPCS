@@ -2,17 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class RoomSettingDirector : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public TMP_InputField player_name_field;
+    public TMP_InputField chips_field;
+
+    private void Awake() {
+        if (GameDataObject.dataObj.before_scene == "LobbyScene"){
+            player_name_field.text = GameDataObject.dataObj.player_name;
+            chips_field.text = GameDataObject.dataObj.chips.ToString();
+        }
+    }
+
+
     public void RoomCreateButtonListener(){
+        if(chips_field.text == ""){
+            Debug.Log("No Chips");
+            return;
+        }
+
+        if(GameDataObject.dataObj.before_scene != "LobbyScene"){
+            GameDataObject.dataObj.roomID = Random.Range(0, 9999);
+        }
+
+        GameDataObject.dataObj.ChangePlayerName(player_name_field.text);
+        GameDataObject.dataObj.chips = int.Parse(chips_field.text);
+
         SceneManager.LoadScene("LobbyScene");
     }
 
     public void BackButtonListener(){
-        //왔던 씬으로 돌아가는 기능 필요
-        //시작 화면에서 들어오면 시작화면, 아니라면 로비화면
-        SceneManager.LoadScene("StartScene");
+        SceneManager.LoadScene(GameDataObject.dataObj.before_scene);
     }
 }

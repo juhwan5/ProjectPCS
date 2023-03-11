@@ -181,7 +181,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Back
+  m_text: 'Return
+
+    Title'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1511,6 +1513,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetCanvas: {fileID: 610594352}
   p1_txt: {fileID: 2661852074888316675, guid: 7f22484388660f64ba74f4f15d3a2513, type: 3}
+  room_ID_txt: {fileID: 811243483}
+  chips_txt: {fileID: 254352289}
   player_txt_y_term: -200
 --- !u!4 &953868904
 Transform:
@@ -1922,7 +1926,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 420, y: -573}
+  m_AnchoredPosition: {x: 196, y: -573}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1564915646

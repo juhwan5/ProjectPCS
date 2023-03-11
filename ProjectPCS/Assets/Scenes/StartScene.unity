@@ -1467,8 +1467,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d3855200a9aec949afbfedfa15eb038, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerName: 
+  player_name: 
   roomID: 0
+  before_scene: 
 --- !u!4 &933725062
 Transform:
   m_ObjectHideFlags: 0
@@ -1632,7 +1633,7 @@ GameObject:
   - component: {fileID: 1113815549}
   - component: {fileID: 1113815548}
   m_Layer: 5
-  m_Name: ChipsInputField
+  m_Name: RoomIDField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1717,7 +1718,7 @@ MonoBehaviour:
   m_CharacterValidation: 2
   m_RegexValue: 
   m_GlobalPointSize: 14
-  m_CharacterLimit: 5
+  m_CharacterLimit: 4
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
@@ -2271,6 +2272,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ec19dcd9d267f546a0c3df9679a3b9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player_name_field: {fileID: 1927126951}
+  room_id_field: {fileID: 1113815548}
 --- !u!4 &1792490024
 Transform:
   m_ObjectHideFlags: 0
@@ -2572,7 +2575,7 @@ MonoBehaviour:
   m_CharacterValidation: 0
   m_RegexValue: 
   m_GlobalPointSize: 14
-  m_CharacterLimit: 0
+  m_CharacterLimit: 30
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
