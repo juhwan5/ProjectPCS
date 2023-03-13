@@ -24,7 +24,7 @@ public class RoomSettingDirector : MonoBehaviour
         }
 
         if(GameDataObject.dataObj.before_scene != "LobbyScene"){
-            GameDataObject.dataObj.roomID = Random.Range(0, 9999);
+            GameDataObject.dataObj.roomID = Random.Range(1000, 9999);
         }
 
         GameDataObject.dataObj.ChangePlayerName(player_name_field.text);

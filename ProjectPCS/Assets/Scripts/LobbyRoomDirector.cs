@@ -15,36 +15,41 @@ public class LobbyRoomDirector : MonoBehaviour
     public float player_txt_y_term = -200f;
 
 
-    string[] playersName = new string[8];
-    private Transform player_name_position;
-
+    string[] playersName = {"", "", "", "", "", "", "", ""};
+    private int dummy_number = 1;
+    private Vector3 player_name_position;
+    
     private void Awake() {
         GameDataObject.dataObj.before_scene = SceneManager.GetActiveScene().name;
-        player_name_position = targetCanvas.Find("PlayerNameTxtPosition");
+        player_name_position = targetCanvas.Find("PlayerNameTxtPosition").GetComponent<RectTransform>().anchoredPosition3D;
         GetPlayersName();
         DrawScreen();
         
     }
 
     private void DrawScreen(){
+        GameObject[] prefabs = GameObject.FindGameObjectsWithTag("PlayerNameTxt");
+        foreach  (GameObject prefab in prefabs){
+            Destroy(prefab);
+        }
+        
         //Draw RoomId, Chips
-        room_ID_txt.text = "RoomID : " +GameDataObject.dataObj.roomID.ToString();
-        chips_txt.text = "Chips : " +GameDataObject.dataObj.chips.ToString();
+        room_ID_txt.text = "RoomID : " + GameDataObject.dataObj.roomID.ToString();
+        chips_txt.text = "Chips : " + GameDataObject.dataObj.chips.ToString();
 
 
         //Draw Player Name
-        Vector3 pos_vec = player_name_position.GetComponent<RectTransform>().anchoredPosition3D;
         for (int i=0; i < 8; i++){
             TextMeshProUGUI player_txt = Instantiate(p1_txt, targetCanvas);
             player_txt.text = "*  " + playersName[i];
-            player_txt.transform.GetComponent<RectTransform>().anchoredPosition3D = pos_vec + new Vector3(0, player_txt_y_term * i, 0);
+            player_txt.transform.GetComponent<RectTransform>().anchoredPosition3D = player_name_position + new Vector3(0, player_txt_y_term * i, 0);
         }
     }
 
     private void GetPlayersName(){
-        for (int i=0; i < 8; i++){
-            playersName[i] = (i+1).ToString();
-        }
+        // for (int i=0; i < 8; i++){
+        //     playersName[i] = (i+1).ToString();
+        // }
         try
         {
             playersName[0] = GameDataObject.dataObj.player_name;
@@ -57,6 +62,29 @@ public class LobbyRoomDirector : MonoBehaviour
         
     }
 
+    private void NewPlayerComeIn(){
+        for (int i=0; i < 8; i++){
+            if (playersName[i] == ""){
+                playersName[i] = "DummYPlayer " + dummy_number.ToString();
+                dummy_number++;
+                break;
+            }
+        }
+        DrawScreen();
+    }
+
+    private void PlayerGetOut(){
+        for (int i=0; i < 8; i++){
+            string[] target_name = playersName[i].Split();
+            if (target_name[0] == "DummYPlayer"){
+                playersName[i] = "";
+                break;
+            }
+        }
+        DrawScreen();
+    }
+
+
     public void GameStartButtonListener(){
         SceneManager.LoadScene("InGameScene");
     }
@@ -67,4 +95,12 @@ public class LobbyRoomDirector : MonoBehaviour
     public void RoomSettingButtonListener(){
         SceneManager.LoadScene("RoomSettingScene");
     }
+
+    public void DummyPlusButtonListener(){
+        NewPlayerComeIn();
+    }
+    public void DummyMinusButtonListener(){
+        PlayerGetOut();
+    }
+    
 }
