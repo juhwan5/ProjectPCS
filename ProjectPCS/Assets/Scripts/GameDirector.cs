@@ -12,6 +12,7 @@ public class GameDirector : MonoBehaviour
     public Camera main_Camera;
     public Camera player_Camera;
 
+
     float player_Distance = 7.5f;
 
     int player_number = 0;
@@ -24,9 +25,13 @@ public class GameDirector : MonoBehaviour
     };
     
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
        playerObject = GameObject.Find("Player");
+    }
+
+    private void Start() {
+        
     }
 
     // Update is called once per frame
