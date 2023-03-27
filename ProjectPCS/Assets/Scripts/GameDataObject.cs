@@ -5,9 +5,9 @@ using UnityEngine;
 public class GameDataObject : MonoBehaviour
 {
     public static GameDataObject dataObj;
-    public string player_name;
-    public int roomID;
-    public int chips;
+    public PlayerData playerData;
+    public int user_ID;
+
     public string before_scene;
 
     private void Awake() {
@@ -16,14 +16,8 @@ public class GameDataObject : MonoBehaviour
             return;
         }
         dataObj = this;
+        dataObj.playerData = new PlayerData();
         DontDestroyOnLoad(gameObject);
     }
 
-    public void ChangePlayerName(string name){
-        if(name.Equals("")){
-            player_name = "BurningPeanut";
-        }else{
-            player_name = name;
-        }
-    }
 }

@@ -27,9 +27,9 @@ public class StartSceneDirector : MonoBehaviour
             return ;
         }
 
-        GameDataObject.dataObj.ChangePlayerName(player_name_field.text);
-        GameDataObject.dataObj.roomID = int.Parse(room_id_field.text);
-        GameDataObject.dataObj.chips = 10000;
+        GameDataObject.dataObj.playerData.ChangePlayerName(player_name_field.text);
+        GameDataObject.dataObj.playerData.room_ID = int.Parse(room_id_field.text);
+        GameDataObject.dataObj.playerData.reserved_chips = 10000;
         
         SceneManager.LoadScene("LobbyScene");
     }

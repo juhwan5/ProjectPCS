@@ -38,18 +38,7 @@ public class GameDirector : MonoBehaviour
     void Update()
     {
         if (Input.anyKeyDown){
-            if(Input.GetKeyDown(KeyCode.Q)){
-                ChipDrop(blue_Chip);
-            }
-            if(Input.GetKeyDown(KeyCode.W)){
-                ChipDrop(black_Chip);
-            }
-            if(Input.GetKeyDown(KeyCode.E)){
-                ChipDrop(red_Chip);
-            }
-            if(Input.GetKeyDown(KeyCode.R)){
-                ChipDrop(green_Chip);
-            }
+            
 
             if(Input.GetKeyDown(KeyCode.Keypad0)){
                 player_number = 0;
@@ -63,9 +52,6 @@ public class GameDirector : MonoBehaviour
                     main_Camera.enabled = false;
                     player_Camera.enabled = true;
                 }
-            }
-            if(Input.GetKeyDown(KeyCode.Space)){
-                ChipsDelete();
             }
         }
     }
@@ -91,7 +77,4 @@ public class GameDirector : MonoBehaviour
         chip.transform.position = chip_drop_area.position + new Vector3(x, 1f, z);
     }
 
-    void ChipsDelete(){
-        
-    }
 }

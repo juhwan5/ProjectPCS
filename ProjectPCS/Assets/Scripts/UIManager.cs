@@ -15,7 +15,7 @@ public class UIManager : MonoBehaviour
     private int betting_chips;
 
     private void Awake() {
-        now_chips = GameDataObject.dataObj.chips;
+        now_chips = GameDataObject.dataObj.playerData.reserved_chips;
         betting_chips = 0;
     }
 
