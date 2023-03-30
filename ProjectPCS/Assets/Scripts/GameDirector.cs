@@ -13,8 +13,6 @@ public class GameDirector : MonoBehaviour
     public Camera player_Camera;
 
 
-    float player_Distance = 7.5f;
-
     int player_number = 0;
     GameObject playerObject;
     Dictionary<KeyCode, int> numkey_list = new Dictionary<KeyCode, int>{
@@ -25,13 +23,11 @@ public class GameDirector : MonoBehaviour
     };
     
     // Start is called before the first frame update
-    void Awake()
-    {
-       playerObject = GameObject.Find("Player");
+    void Awake(){
+        main_Camera.enabled = true;
     }
 
-    private void Start() {
-        
+    private void Start() {   
     }
 
     // Update is called once per frame
@@ -41,14 +37,19 @@ public class GameDirector : MonoBehaviour
             
 
             if(Input.GetKeyDown(KeyCode.Keypad0)){
-                player_number = 0;
                 main_Camera.enabled = true;
                 player_Camera.enabled = false;
             }
             foreach(var dic in numkey_list){
                 if(Input.GetKeyDown(dic.Key)){
-                    player_number = dic.Value;
-                    SetPlayerPosition(dic.Value);
+                    player_number = dic.Value-1;
+                    if (player_number >= TestDataStreamer.dataObj.player_data_list.Count){
+                        return;
+                    }
+                    player_Camera.enabled = false;
+                    GameObject obj =  TestDataStreamer.dataObj.player_data_list[player_number].playerObj;
+
+                    player_Camera = obj.transform.Find("PlayerCamera").GetComponent<Camera>();
                     main_Camera.enabled = false;
                     player_Camera.enabled = true;
                 }
@@ -56,14 +57,6 @@ public class GameDirector : MonoBehaviour
         }
     }
 
-    void SetPlayerPosition(int posnum){
-        
-        float turnAngle = (posnum-1) * -45f;
-        playerObject.transform.position = new Vector3(0, 3.2f, 0);
-        playerObject.transform.localEulerAngles = new Vector3(0,0,0);
-        playerObject.transform.Rotate(new Vector3(0, turnAngle, 0));
-        playerObject.transform.Translate(new Vector3(0,0,-player_Distance));
-    }
 
     void ChipDrop(GameObject color_Chip)
     {
