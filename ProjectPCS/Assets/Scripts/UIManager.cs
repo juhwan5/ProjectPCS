@@ -10,13 +10,17 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI now_chips_txt;
     public TMP_InputField betting_chips_txt;
     public Slider chips_slider;
+    public GameObject scoreboard_ui;
 
     private int now_chips;
     private int betting_chips;
+    private bool is_scoreboard_open;
 
     private void Awake() {
         now_chips = GameDataObject.dataObj.playerData.reserved_chips;
         betting_chips = 0;
+        is_scoreboard_open = true;
+        ScoreboardButtonListener();
     }
 
     void Start()
@@ -52,6 +56,17 @@ public class UIManager : MonoBehaviour
         betting_chips_txt.text = betting_chips.ToString();
         now_chips_txt.text = (now_chips - betting_chips).ToString();
         
+    }
+
+
+    public void ScoreboardButtonListener(){
+        if (is_scoreboard_open){
+            scoreboard_ui.SetActive(false);
+            is_scoreboard_open = false;
+        }else{
+            scoreboard_ui.SetActive(true);
+            is_scoreboard_open = true;
+        }
     }
 
 }
