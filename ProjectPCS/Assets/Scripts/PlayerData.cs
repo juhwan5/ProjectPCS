@@ -6,7 +6,6 @@ public class PlayerData
 {
     
     public string player_name;
-    public int room_ID;
     public int reserved_chips;
     public int betting_chips;
     public bool is_turn_player;
@@ -15,10 +14,11 @@ public class PlayerData
 
     public PlayerData() : this("BurningPeanut"){}
 
-    public PlayerData(string name){
+    public PlayerData(string name) : this(name, 0){}
+
+    public PlayerData(string name, int reserved_chips){
         this.player_name = name;
-        this.room_ID = 0;
-        this.reserved_chips = 0;
+        this.reserved_chips = reserved_chips;
         this.betting_chips = 0;
         this.is_turn_player = false;
     }

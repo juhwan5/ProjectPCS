@@ -9,6 +9,11 @@ public class ScoreboardScript : MonoBehaviour
     public GameObject player_data_txt_box;
 
     private void Awake() {
+        DrawScoreboard();
+    }
+
+
+    public void DrawScoreboard(){
         for (int i =0; i < 8; i++){
             GameObject obj = Instantiate(player_data_txt_box, transform);
             obj.transform.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(0, -120-(i*50),0);

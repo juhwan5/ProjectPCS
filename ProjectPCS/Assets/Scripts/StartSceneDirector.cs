@@ -28,9 +28,17 @@ public class StartSceneDirector : MonoBehaviour
         }
 
         GameDataObject.dataObj.playerData.ChangePlayerName(player_name_field.text);
-        GameDataObject.dataObj.playerData.room_ID = int.Parse(room_id_field.text);
-        GameDataObject.dataObj.playerData.reserved_chips = 10000;
+        int room_ID = int.Parse(room_id_field.text);
         
-        SceneManager.LoadScene("LobbyScene");
+        if (RoomEnterMessager(room_ID, GameDataObject.dataObj.playerData)){
+            GameDataObject.dataObj.room_ID = room_ID;
+            SceneManager.LoadScene("LobbyScene");
+        }else{
+            Debug.Log("Room enter denied");
+        }
+    }
+
+    private bool RoomEnterMessager(int roomID, PlayerData playerdata){
+        return TestDataStreamer.dataObj.UserEnterRoom(roomID, playerdata);
     }
 }

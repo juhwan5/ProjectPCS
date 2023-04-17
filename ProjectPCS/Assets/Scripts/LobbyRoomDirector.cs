@@ -16,16 +16,16 @@ public class LobbyRoomDirector : MonoBehaviour
 
 
     private List<PlayerData> player_data_list = new List<PlayerData>();
+    
     private int dummy_number = 1;
     private Vector3 player_name_position;
     
     private void Awake() {
-        player_data_list.Add(GameDataObject.dataObj.playerData);
+        player_data_list = TestDataStreamer.dataObj.player_data_list;
         GameDataObject.dataObj.before_scene = SceneManager.GetActiveScene().name;
         player_name_position = targetCanvas.Find("PlayerNameTxtPosition").GetComponent<RectTransform>().anchoredPosition3D;
         
         DrawScreen();
-        
     }
 
     private void DrawScreen(){
@@ -35,8 +35,8 @@ public class LobbyRoomDirector : MonoBehaviour
         }
         
         //Draw RoomId, Chips
-        room_ID_txt.text = "RoomID : " + GameDataObject.dataObj.playerData.room_ID.ToString();
-        chips_txt.text = "Chips : " + GameDataObject.dataObj.playerData.reserved_chips.ToString();
+        room_ID_txt.text = "RoomID : " + TestDataStreamer.dataObj.room_ID.ToString();
+        chips_txt.text = "Chips : " + TestDataStreamer.dataObj.betting_chips.ToString();
 
 
         //Draw Player Name
@@ -53,8 +53,8 @@ public class LobbyRoomDirector : MonoBehaviour
 
 
     private void NewPlayerComeIn(){
-        PlayerData dummyPlayerData = new PlayerData();
-        dummyPlayerData.player_name = "DummYPlayer " + dummy_number++.ToString();
+        PlayerData dummyPlayerData = new PlayerData("DummYPlayer " + dummy_number++.ToString(), 
+            TestDataStreamer.dataObj.betting_chips);
         player_data_list.Add(dummyPlayerData);
         DrawScreen();
     }
@@ -81,6 +81,10 @@ public class LobbyRoomDirector : MonoBehaviour
 
     public void GameStartButtonListener(){
         TestDataStreamer.dataObj.player_data_list = player_data_list;
+        for (int i =0; i < TestDataStreamer.dataObj.player_data_list.Count; i++){
+            TestDataStreamer.dataObj.player_data_list[i].reserved_chips = TestDataStreamer.dataObj.betting_chips;
+        }
+
         SceneManager.LoadScene("InGameScene");
     }
     public void BackButtonListener(){

@@ -7,6 +7,7 @@ public class GameDataObject : MonoBehaviour
     public static GameDataObject dataObj;
     public PlayerData playerData;
     public int user_ID;
+    public int room_ID;
 
     public string before_scene;
 

@@ -7,7 +7,9 @@ public class InGameMaster : MonoBehaviour
 
     public GameObject player_prefab;
 
-    private void Awake() {}
+    private void Awake() {
+        TestDataStreamer.dataObj.betting_chips = 0;
+    }
 
 
     private void Start() {

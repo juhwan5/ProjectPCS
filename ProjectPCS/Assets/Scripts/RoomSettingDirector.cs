@@ -22,11 +22,10 @@ public class RoomSettingDirector : MonoBehaviour
             Debug.Log("No Chips");
             return;
         }
-
         GameDataObject.dataObj.playerData.ChangePlayerName(player_name_field.text);
-        GameDataObject.dataObj.playerData.reserved_chips = int.Parse(chips_field.text);
+        int start_chips = int.Parse(chips_field.text);
 
-        bool create_room_message = CreateRoomMessager();
+        bool create_room_message = CreateRoomMessager(GameDataObject.dataObj.playerData, start_chips);
 
         if (create_room_message){
             SceneManager.LoadScene("LobbyScene");
@@ -40,8 +39,14 @@ public class RoomSettingDirector : MonoBehaviour
     }
 
 
-    bool CreateRoomMessager(){
-        GameDataObject.dataObj.playerData.room_ID = Random.Range(1000,9999);
-        return true;
+    bool CreateRoomMessager(PlayerData playerdata, int start_chips){
+        int room_ID = TestDataStreamer.dataObj.RoomCreateMessager(playerdata, start_chips);
+
+        if (room_ID >= 1000){
+            GameDataObject.dataObj.room_ID = room_ID;
+            return true;
+        }
+        
+        return false;
     }
 }
