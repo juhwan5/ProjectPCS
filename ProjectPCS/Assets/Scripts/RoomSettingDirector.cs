@@ -10,10 +10,6 @@ public class RoomSettingDirector : MonoBehaviour
     public TMP_InputField chips_field;
 
     private void Awake() {
-        if (GameDataObject.dataObj.before_scene == "LobbyScene"){
-            player_name_field.text = GameDataObject.dataObj.playerData.player_name;
-            chips_field.text = GameDataObject.dataObj.playerData.reserved_chips.ToString();
-        }
     }
 
 
@@ -22,12 +18,13 @@ public class RoomSettingDirector : MonoBehaviour
             Debug.Log("No Chips");
             return;
         }
-        GameDataObject.dataObj.playerData.ChangePlayerName(player_name_field.text);
+    
         int start_chips = int.Parse(chips_field.text);
 
-        bool create_room_message = CreateRoomMessager(GameDataObject.dataObj.playerData, start_chips);
+        bool create_room_message = RoomCreateMessager(int.Parse(chips_field.text),player_name_field.text);
 
         if (create_room_message){
+            GameDataObject.dataObj.ServerSynch();
             SceneManager.LoadScene("LobbyScene");
         }else{
             Debug.Log("Room creating connection fail");
@@ -35,12 +32,11 @@ public class RoomSettingDirector : MonoBehaviour
     }
 
     public void BackButtonListener(){
-        SceneManager.LoadScene(GameDataObject.dataObj.before_scene);
     }
 
 
-    bool CreateRoomMessager(PlayerData playerdata, int start_chips){
-        int room_ID = TestDataStreamer.dataObj.RoomCreateMessager(playerdata, start_chips);
+    bool RoomCreateMessager(int start_chips, string player_name){
+        int room_ID = TestDataStreamer.dataObj.RoomCreateMessager(start_chips, player_name);
 
         if (room_ID >= 1000){
             GameDataObject.dataObj.room_ID = room_ID;

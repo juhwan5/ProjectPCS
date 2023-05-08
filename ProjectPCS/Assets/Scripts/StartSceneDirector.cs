@@ -13,7 +13,6 @@ public class StartSceneDirector : MonoBehaviour
 
 
     private void Awake() {
-        GameDataObject.dataObj.before_scene = SceneManager.GetActiveScene().name;
     }
 
     public void RoomCreateButtonListener(){
@@ -27,10 +26,9 @@ public class StartSceneDirector : MonoBehaviour
             return ;
         }
 
-        GameDataObject.dataObj.playerData.ChangePlayerName(player_name_field.text);
         int room_ID = int.Parse(room_id_field.text);
         
-        if (RoomEnterMessager(room_ID, GameDataObject.dataObj.playerData)){
+        if (RoomEnterMessager(room_ID, player_name_field.text)){
             GameDataObject.dataObj.room_ID = room_ID;
             SceneManager.LoadScene("LobbyScene");
         }else{
@@ -38,7 +36,7 @@ public class StartSceneDirector : MonoBehaviour
         }
     }
 
-    private bool RoomEnterMessager(int roomID, PlayerData playerdata){
-        return TestDataStreamer.dataObj.UserEnterRoom(roomID, playerdata);
+    private bool RoomEnterMessager(int roomID, string player_name){
+        return TestDataStreamer.dataObj.UserEnterRoom(roomID, player_name);
     }
 }

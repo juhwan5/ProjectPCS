@@ -17,7 +17,7 @@ public class UIManager : MonoBehaviour
     private bool is_scoreboard_open;
 
     private void Awake() {
-        now_chips = GameDataObject.dataObj.playerData.reserved_chips;
+        //now_chips = GameDataObject.dataObj.playerData.reserved_chips;
         betting_chips = 0;
         is_scoreboard_open = true;
         ScoreboardButtonListener();

@@ -16,26 +16,26 @@ public class TestDataStreamer : MonoBehaviour
             return;
         }
         dataObj = this;
+        dataObj.player_data_list = new List<PlayerData>();
         DontDestroyOnLoad(gameObject);
     }
 
-    public int RoomCreateMessager(PlayerData playerdata, int start_chips){
-        player_data_list = new List<PlayerData>();
+    public int RoomCreateMessager(int start_chips, string player_name){
         betting_chips = start_chips;
         room_ID = Random.Range(1000,9999);
-        player_data_list.Add(playerdata);
+        player_data_list.Add(new PlayerData(player_name));
         
         return room_ID;
     }
 
-    public bool UserEnterRoom(int roomID, PlayerData playerdata){
+    public bool UserEnterRoom(int roomID, string player_name){
         if (player_data_list == null){
             Debug.Log("no playerList");
             return false;
         }
 
         if (SearchRoomWithRoomID(roomID)){
-            player_data_list.Add(playerdata);
+            player_data_list.Add(new PlayerData(player_name));
             return true;
         }else{
             Debug.Log("no Room");
