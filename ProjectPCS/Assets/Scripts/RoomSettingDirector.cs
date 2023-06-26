@@ -21,10 +21,10 @@ public class RoomSettingDirector : MonoBehaviour
     
         int start_chips = int.Parse(chips_field.text);
 
-        bool create_room_message = RoomCreateMessager(int.Parse(chips_field.text),player_name_field.text);
+        bool create_room_message = RoomCreateMessager(int.Parse(chips_field.text), player_name_field.text);
 
         if (create_room_message){
-            GameDataObject.dataObj.ServerSynch();
+
             SceneManager.LoadScene("LobbyScene");
         }else{
             Debug.Log("Room creating connection fail");
@@ -32,14 +32,19 @@ public class RoomSettingDirector : MonoBehaviour
     }
 
     public void BackButtonListener(){
+        SceneManager.LoadScene(GameDataObject.dataObj.before_scene);
     }
 
 
     bool RoomCreateMessager(int start_chips, string player_name){
-        int room_ID = TestDataStreamer.dataObj.RoomCreateMessager(start_chips, player_name);
+        ServerMessage msg = TestDataStreamer.dataObj.RoomCreateMessager(start_chips, player_name);
 
-        if (room_ID >= 1000){
-            GameDataObject.dataObj.room_ID = room_ID;
+        if (msg.is_connect_success){
+            GameDataObject.dataObj.room_ID = msg.room_ID;
+            GameDataObject.dataObj.personal_user_ID = msg.user_ID;
+            GameDataObject.dataObj.start_chips = msg.start_chips;
+            GameDataObject.dataObj.player_data_list.Add(msg.player_data_instance);
+
             return true;
         }
         

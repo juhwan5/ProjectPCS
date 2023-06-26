@@ -8,12 +8,12 @@ public class InGameMaster : MonoBehaviour
     public GameObject player_prefab;
 
     private void Awake() {
-        TestDataStreamer.dataObj.betting_chips = 0;
+        GameDataObject.dataObj.total_betting = 0;
+        SetPlayerPosition(GameDataObject.dataObj.player_data_list.Count);
     }
 
 
     private void Start() {
-        SetPlayerPosition(TestDataStreamer.dataObj.player_data_list.Count);
     }
 
 
@@ -30,8 +30,8 @@ public class InGameMaster : MonoBehaviour
             playerObj.transform.localEulerAngles = new Vector3(0,0,0);
             playerObj.transform.Rotate(new Vector3(0, turnAngle, 0));
             playerObj.transform.Translate(new Vector3(0,0, -7.5f));
+            playerObj.GetComponent<PlayerPrefabScript>().user_ID = GameDataObject.dataObj.player_data_list[idx++].user_ID;
 
-            TestDataStreamer.dataObj.player_data_list[idx++].playerObj = playerObj;
             
         }
     }

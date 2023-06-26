@@ -42,16 +42,16 @@ public class GameDirector : MonoBehaviour
             }
             foreach(var dic in numkey_list){
                 if(Input.GetKeyDown(dic.Key)){
-                    player_number = dic.Value-1;
-                    if (player_number >= TestDataStreamer.dataObj.player_data_list.Count){
-                        return;
-                    }
-                    player_Camera.enabled = false;
-                    GameObject obj =  TestDataStreamer.dataObj.player_data_list[player_number].playerObj;
+                    // player_number = dic.Value-1;
+                    // if (player_number >= TestDataStreamer.dataObj.player_data_list.Count){
+                    //     return;
+                    // }
+                    // player_Camera.enabled = false;
+                    // GameObject obj =  TestDataStreamer.dataObj.player_data_list[player_number].playerObj;
 
-                    player_Camera = obj.transform.Find("PlayerCamera").GetComponent<Camera>();
-                    main_Camera.enabled = false;
-                    player_Camera.enabled = true;
+                    // player_Camera = obj.transform.Find("PlayerCamera").GetComponent<Camera>();
+                    // main_Camera.enabled = false;
+                    // player_Camera.enabled = true;
                 }
             }
         }

@@ -6,11 +6,15 @@ public class GameDataObject : MonoBehaviour
 {
     public static GameDataObject dataObj;
     
-    public int user_ID;
     //인게임 필요 데이터 (통신용)
-    public List<PlayerData> player_data_list;
+    public int personal_user_ID;
+    public string before_scene;
+    
     public int room_ID;
-    public int betting_chips;
+    public int total_betting;
+    public int start_chips;
+    public List<PlayerData> player_data_list;
+
 
 
     private void Awake() {
@@ -23,8 +27,28 @@ public class GameDataObject : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void ServerSynch(){
-        player_data_list = TestDataStreamer.dataObj.player_data_list;
+    public void ClearData(){
+        personal_user_ID = 0;
+        room_ID = 0;
+        total_betting = 0;
+        start_chips = 0;
+        player_data_list.Clear();
+    }
+    public List<PlayerData> GetPlayerList()
+    {
+        return player_data_list.ConvertAll(p => new PlayerData(p));
+    }
+
+    public PlayerData GetMyPlayerData()
+    {
+        foreach (PlayerData p in player_data_list)
+        {
+            if (p.user_ID == personal_user_ID)
+            {
+                return p;
+            }
+        }
+        return null;
     }
 
 }

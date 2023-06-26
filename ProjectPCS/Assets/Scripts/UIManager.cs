@@ -17,7 +17,7 @@ public class UIManager : MonoBehaviour
     private bool is_scoreboard_open;
 
     private void Awake() {
-        //now_chips = GameDataObject.dataObj.playerData.reserved_chips;
+        now_chips = GameDataObject.dataObj.GetMyPlayerData().current_chips;
         betting_chips = 0;
         is_scoreboard_open = true;
         ScoreboardButtonListener();
@@ -71,6 +71,19 @@ public class UIManager : MonoBehaviour
 
 
     public void BettingButtonListener(){
+        ServerMessage send_msg = new ServerMessage();
+        send_msg.is_connect_success = true;
+        send_msg.room_ID = GameDataObject.dataObj.room_ID;
+        send_msg.user_ID = GameDataObject.dataObj.GetMyPlayerData().user_ID;
+        send_msg.betting_chips = betting_chips;
+
+        ServerMessage get_msg = TestDataStreamer.dataObj.BettingMessager(send_msg);
+        if (!get_msg.is_connect_success){
+            Debug.Log("betting Failed");
+        }
+
+        //coding
+
     }
 
 }

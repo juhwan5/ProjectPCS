@@ -13,6 +13,7 @@ public class StartSceneDirector : MonoBehaviour
 
 
     private void Awake() {
+        GameDataObject.dataObj.before_scene = SceneManager.GetActiveScene().name;
     }
 
     public void RoomCreateButtonListener(){
@@ -29,7 +30,6 @@ public class StartSceneDirector : MonoBehaviour
         int room_ID = int.Parse(room_id_field.text);
         
         if (RoomEnterMessager(room_ID, player_name_field.text)){
-            GameDataObject.dataObj.room_ID = room_ID;
             SceneManager.LoadScene("LobbyScene");
         }else{
             Debug.Log("Room enter denied");
@@ -37,6 +37,17 @@ public class StartSceneDirector : MonoBehaviour
     }
 
     private bool RoomEnterMessager(int roomID, string player_name){
-        return TestDataStreamer.dataObj.UserEnterRoom(roomID, player_name);
+        ServerMessage msg = TestDataStreamer.dataObj.UserEnterRoom(roomID, player_name);
+
+        if (msg.is_connect_success){
+            GameDataObject.dataObj.room_ID = msg.room_ID;
+            GameDataObject.dataObj.personal_user_ID = msg.user_ID;
+            GameDataObject.dataObj.start_chips = msg.start_chips;
+            GameDataObject.dataObj.player_data_list = msg.player_data_list;
+
+            return true;
+        }
+
+        return false;
     }
 }

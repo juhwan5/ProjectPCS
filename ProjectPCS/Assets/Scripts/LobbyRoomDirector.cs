@@ -14,32 +14,33 @@ public class LobbyRoomDirector : MonoBehaviour
 
     public float player_txt_y_term = -200f;
 
-    private int dummy_number = 1;
+    //private int dummy_number = 1;
     private Vector3 player_name_position;
     
     private void Awake() {
-        GameDataObject.dataObj.ServerSynch();
+        GameDataObject.dataObj.before_scene = SceneManager.GetActiveScene().name;
         player_name_position = targetCanvas.Find("PlayerNameTxtPosition").GetComponent<RectTransform>().anchoredPosition3D;
         
         DrawScreen();
     }
 
     private void DrawScreen(){
+        //Delete old prefabs
         GameObject[] prefabs = GameObject.FindGameObjectsWithTag("PlayerNameTxt");
         foreach  (GameObject prefab in prefabs){
             Destroy(prefab);
         }
         
         //Draw RoomId, Chips
-        room_ID_txt.text = "RoomID : " + TestDataStreamer.dataObj.room_ID.ToString();
-        chips_txt.text = "Chips : " + TestDataStreamer.dataObj.betting_chips.ToString();
+        room_ID_txt.text = "RoomID : " + GameDataObject.dataObj.room_ID.ToString();
+        chips_txt.text = "Chips : " + GameDataObject.dataObj.start_chips.ToString();
 
 
         //Draw Player Name
         for (int i=0; i < 8; i++){
             string next_name = "";
             if (i < GameDataObject.dataObj.player_data_list.Count){
-                next_name = GameDataObject.dataObj.player_data_list[i].player_name;
+                next_name = GameDataObject.dataObj.player_data_list[i].user_name;
             }
             TextMeshProUGUI player_txt = Instantiate(p1_txt, targetCanvas);
             player_txt.text = "*  " + next_name;
@@ -48,17 +49,15 @@ public class LobbyRoomDirector : MonoBehaviour
     }
 
 
-    private void NewPlayerComeIn(){
-        PlayerData dummyPlayerData = new PlayerData("DummYPlayer " + dummy_number++.ToString(), 
-            TestDataStreamer.dataObj.betting_chips);
-        GameDataObject.dataObj.player_data_list.Add(dummyPlayerData);
+    public void NewPlayerComeIn(ServerMessage msg){
+        GameDataObject.dataObj.player_data_list = msg.GetPlayerList();
         DrawScreen();
     }
 
     private void PlayerGetOut(){
         bool is_getout = false;
         for (int i=0; i < GameDataObject.dataObj.player_data_list.Count; i++){
-            string[] target_name = GameDataObject.dataObj.player_data_list[i].player_name.Split();
+            string[] target_name = GameDataObject.dataObj.player_data_list[i].user_name.Split();
             if (target_name[0] == "DummYPlayer"){
                 GameDataObject.dataObj.player_data_list.RemoveAt(i);
                 is_getout = true;
@@ -76,14 +75,19 @@ public class LobbyRoomDirector : MonoBehaviour
 
 
     public void GameStartButtonListener(){
-        TestDataStreamer.dataObj.player_data_list = GameDataObject.dataObj.player_data_list;
-        for (int i =0; i < TestDataStreamer.dataObj.player_data_list.Count; i++){
-            TestDataStreamer.dataObj.player_data_list[i].reserved_chips = TestDataStreamer.dataObj.betting_chips;
+        foreach (PlayerData pdata in GameDataObject.dataObj.player_data_list){
+            pdata.current_chips = GameDataObject.dataObj.start_chips;
         }
+        ServerMessage msg = TestDataStreamer.dataObj.GameStart();
 
-        SceneManager.LoadScene("InGameScene");
+        if (msg.is_connect_success){
+            SceneManager.LoadScene("InGameScene");
+        }else{
+            Debug.Log("Failed start game");
+        }
     }
     public void BackButtonListener(){
+        GameDataObject.dataObj.ClearData();
         SceneManager.LoadScene("StartScene");
     }
 
@@ -93,11 +97,12 @@ public class LobbyRoomDirector : MonoBehaviour
 
     public void DummyPlusButtonListener(){
         if (GameDataObject.dataObj.player_data_list.Count < 8){
-            NewPlayerComeIn();
+            TestDataStreamer.dataObj.NewPlayerComeIn(GameDataObject.dataObj.room_ID);
         }
     }
     public void DummyMinusButtonListener(){
         PlayerGetOut();
     }
+
     
 }
